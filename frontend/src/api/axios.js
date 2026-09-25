@@ -3,7 +3,7 @@ import axios from "axios";
 // Central place for the backend URL.
 // If you deploy the backend, just change this one line.
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://sonicstore-ecommerce.onrender.com/api",
 });
 
 // This runs before every request.
