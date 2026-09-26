@@ -39,4 +39,30 @@ const getMyOrders = async (req, res) => {
   }
 };
 
-export { createOrder, getMyOrders };
+// ADMIN: Get all orders in the system
+const getAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({}).populate("user", "id name").sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ADMIN: Cancel an order
+const cancelOrder = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (order) {
+      order.isCancelled = true;
+      const updatedOrder = await order.save();
+      res.json(updatedOrder);
+    } else {
+      res.status(404).json({ message: "Order not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export { createOrder, getMyOrders ,cancelOrder,getAllOrders};

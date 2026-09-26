@@ -1,26 +1,16 @@
 import mongoose from "mongoose";
 
-// A single item inside an order (a "line item")
 const orderItemSchema = new mongoose.Schema({
   name: { type: String, required: true },
   qty: { type: Number, required: true },
   image: { type: String, required: true },
   price: { type: Number, required: true },
-  product: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
-    required: true,
-  },
+  product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
 });
 
-// This defines what an "Order" looks like in the database
 const orderSchema = new mongoose.Schema(
   {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true, // every order belongs to a logged-in user
-    },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     orderItems: [orderItemSchema],
     shippingAddress: {
       address: { type: String, required: true },
@@ -28,24 +18,13 @@ const orderSchema = new mongoose.Schema(
       postalCode: { type: String, required: true },
       country: { type: String, required: true },
     },
-    totalPrice: {
-      type: Number,
-      required: true,
-      default: 0,
-    },
-    isPaid: {
-      type: Boolean,
-      default: false,
-    },
-    paidAt: {
-      type: Date,
-    },
+    totalPrice: { type: Number, required: true, default: 0 },
+    isPaid: { type: Boolean, default: false },
+    paidAt: { type: Date },
+    isCancelled: { type: Boolean, default: false }, // NEW FIELD
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 const Order = mongoose.model("Order", orderSchema);
-
 export default Order;
