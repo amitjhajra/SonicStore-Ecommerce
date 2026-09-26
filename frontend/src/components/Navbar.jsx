@@ -21,12 +21,8 @@ const Navbar = () => {
           🎧 SonicStore
         </Link>
 
-        {/* Desktop links */}
         <div className="hidden md:flex items-center gap-6">
-          <Link to="/" className="text-gray-700 hover:text-sonic transition-colors">
-            Shop
-          </Link>
-
+          <Link to="/" className="text-gray-700 hover:text-sonic transition-colors">Shop</Link>
           <Link to="/cart" className="relative text-gray-700 hover:text-sonic transition-colors">
             Cart
             {itemsCount > 0 && (
@@ -36,52 +32,27 @@ const Navbar = () => {
             )}
           </Link>
 
+          {/* ADMIN LINK */}
+          {user && user.isAdmin && (
+            <Link to="/admin/products" className="text-red-500 font-bold hover:text-red-700">
+              Admin Panel
+            </Link>
+          )}
+
           {user ? (
             <div className="flex items-center gap-4">
               <span className="text-gray-600">Hi, {user.name.split(" ")[0]}</span>
-              <button
-                onClick={handleLogout}
-                className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-1.5 rounded-full transition-colors"
-              >
+              <button onClick={handleLogout} className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-1.5 rounded-full transition-colors">
                 Logout
               </button>
             </div>
           ) : (
-            <Link
-              to="/login"
-              className="bg-sonic hover:bg-sonic-dark text-white px-4 py-1.5 rounded-full transition-colors"
-            >
+            <Link to="/login" className="bg-sonic hover:bg-sonic-dark text-white px-4 py-1.5 rounded-full transition-colors">
               Login
             </Link>
           )}
         </div>
-
-        {/* Mobile menu button */}
-        <button className="md:hidden text-2xl" onClick={() => setMenuOpen(!menuOpen)}>
-          {menuOpen ? "✕" : "☰"}
-        </button>
       </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-white border-t px-4 py-3 flex flex-col gap-3">
-          <Link to="/" onClick={() => setMenuOpen(false)}>
-            Shop
-          </Link>
-          <Link to="/cart" onClick={() => setMenuOpen(false)}>
-            Cart ({itemsCount})
-          </Link>
-          {user ? (
-            <button onClick={handleLogout} className="text-left">
-              Logout ({user.name.split(" ")[0]})
-            </button>
-          ) : (
-            <Link to="/login" onClick={() => setMenuOpen(false)}>
-              Login
-            </Link>
-          )}
-        </div>
-      )}
     </nav>
   );
 };
